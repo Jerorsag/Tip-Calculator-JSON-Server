@@ -92,6 +92,11 @@ function mostrarPlatillos(platillos) {
         inputCantidad.value = 0;
         inputCantidad.id = `producto-${platillo.id}`;
         inputCantidad.classList.add('form-control');
+
+        // Funcion que detecta la cantidad y el platillo que se esta agregando
+        inputCantidad.onchange = function() {
+            agregarPlatillo(platillo.id);
+        };
         
         const agregar = document.createElement('DIV');
         agregar.classList.add('col-md-2')
@@ -103,4 +108,8 @@ function mostrarPlatillos(platillos) {
         row.appendChild(agregar);
         contenido.appendChild(row);
     })
+}
+
+function agregarPlatillo(id) {
+    console.log('Desde agregar platillo', id)
 }
