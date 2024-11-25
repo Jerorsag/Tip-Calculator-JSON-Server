@@ -4,6 +4,12 @@ let cliente = {
     pedido: []
 };
 
+const categorias = {
+    1: 'Comida',
+    2: 'Bebidas',
+    3: 'Postres'
+}
+
 const btnGuardarCliente = document.querySelector('#guardar-cliente');
 btnGuardarCliente.addEventListener('click', guardarCliente);
 
@@ -86,6 +92,12 @@ function mostrarPlatillos(platillos) {
         inputCantidad.value = 0;
         inputCantidad.id = `producto-${platillo.id}`;
         inputCantidad.classList.add('form-control');
+
+        // Funcion que detecta la cantidad y el platillo que se esta agregando
+        inputCantidad.onchange = function() {
+            const cantidad = parseInt(inputCantidad.value);
+            agregarPlatillo({ ...platillo, cantidad });
+        };
         
         const agregar = document.createElement('DIV');
         agregar.classList.add('col-md-2')
@@ -99,6 +111,33 @@ function mostrarPlatillos(platillos) {
     })
 }
 
-function agregarPlatillo(id) {
-    console.log('Desde agregar platillo', id)
+function agregarPlatillo(producto) {
+
+    // Extraer el producto acual
+    let { pedido } = cliente;
+
+    // Revisar que la cantidad sea mayor a 0
+    if(producto.cantidad > 0) {
+
+        // Comprueba si el elemento ya existe en el array
+        if( pedido.some( articulo => articulo.id === producto.id )) {
+            // El articulo existe, Actualizar la cantidad
+            const pedidoActualizado = pedido.map( articulo => {
+                if(articulo.id === producto.id){
+                    articulo.cantidad = producto.cantidad;
+                }
+                return articulo;
+            });
+            // Se asigna el nuevo array a cliente.pedido
+            cliente.pedido = [...pedidoActualizado]
+        } else {
+            // El articulo no existe lo agregamos al array de pedido
+            cliente.pedido = [...pedido, producto];
+        }
+    } else {
+        // Eliminar elementos cuando la cantidad es 0
+        const resultado = pedido.filter( articulo => articulo.id !== producto.id );
+        cliente.pedido = [...resultado];
+    }
+    console.log(cliente.pedido);
 }
