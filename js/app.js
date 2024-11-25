@@ -4,12 +4,6 @@ let cliente = {
     pedido: []
 };
 
-const categorias = {
-    1: 'Comida',
-    2: 'Bebidas',
-    3: 'Postres'
-}
-
 const btnGuardarCliente = document.querySelector('#guardar-cliente');
 btnGuardarCliente.addEventListener('click', guardarCliente);
 
@@ -92,11 +86,6 @@ function mostrarPlatillos(platillos) {
         inputCantidad.value = 0;
         inputCantidad.id = `producto-${platillo.id}`;
         inputCantidad.classList.add('form-control');
-
-        // Funcion que detecta la cantidad y el platillo que se esta agregando
-        inputCantidad.onchange = function() {
-            agregarPlatillo(platillo.id);
-        };
         
         const agregar = document.createElement('DIV');
         agregar.classList.add('col-md-2')
